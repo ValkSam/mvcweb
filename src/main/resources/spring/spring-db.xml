@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/"
+          p:suffix=".jsp"/>
+
+
+    <beans profile="postgres">
+        <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+        <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+              p:driverClassName="org.postgresql.Driver"
+              p:url="${database.url}"
+              p:username="${database.username}"
+              p:password="${database.password}"/>
+    </beans>
+
+    <beans profile="hibernate">
+        <context:component-scan base-package="valksam.mvcweb.repository.hibernate"/>
+        <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+              p:dataSource-ref="dataSource"
+              p:packagesToScan="valksam.mvcweb.model"/>
+
+        <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+              p:sessionFactory-ref="sessionFactory"/>
+
+        <tx:annotation-driven transaction-manager="transactionManager"/>
+    </beans>
+</beans>
