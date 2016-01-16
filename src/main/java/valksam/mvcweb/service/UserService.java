@@ -7,6 +7,6 @@ import valksam.mvcweb.model.User;
  */
 public interface UserService {
     User get(int id);
-    void delete(int id);
+    boolean delete(int id);
     User save(User user);
 }

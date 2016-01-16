@@ -12,9 +12,34 @@
     <build>
         <finalName>mvcweb</finalName>
         <defaultGoal>package</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <fork>true</fork>
+                    <executable>c:\Program Files\Java\jdk1.8.0_25\bin\javac.exe</executable>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <properties>
+        <java.version>1.8</java.version>
         <spring-data-jpa.version>1.9.0.RELEASE</spring-data-jpa.version>
         <spring.version>4.2.0.RELEASE</spring.version>
         <!-- Logging -->
@@ -29,6 +54,8 @@
         <hibernate-validator.version>5.1.3.Final</hibernate-validator.version>
         <!--Web-->
         <jstl.version>1.2</jstl.version>
+        <!--Test-->
+        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencies>
@@ -66,6 +93,7 @@
             <version>${slf4j.version}</version>
             <scope>runtime</scope>
         </dependency>
+
 
         <!--DB-->
         <dependency>
@@ -133,16 +161,44 @@
             </exclusions>
         </dependency>
 
+        <!--Test-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!--Hibernate-->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.logging</groupId>
+                    <artifactId>jboss-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.logging</groupId>
+                    <artifactId>jboss-logging-annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
     </dependencies>
 

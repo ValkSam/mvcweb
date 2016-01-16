@@ -2,6 +2,7 @@ package valksam.mvcweb;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import valksam.mvcweb.util.exception.NotFoundException;
 
 /**
  * User: gkislin
@@ -70,4 +71,10 @@ public class LoggerWrapper {
         return new UnsupportedOperationException(msg);
     }
 
+    public NotFoundException getNotFoundExeption(String msg) {
+        logger.error(msg);
+        return new NotFoundException(msg);
+    }
+
 }
+

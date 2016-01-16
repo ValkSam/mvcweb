@@ -17,22 +17,61 @@ http://www.springframework.org/schema/tx
 
     <beans profile="postgres">
         <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+    </beans>
+
+    <beans profile="hibernateDs">
         <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
-              p:driverClassName="org.postgresql.Driver"
+              p:driverClassName="${database.driverClassName}"
               p:url="${database.url}"
               p:username="${database.username}"
               p:password="${database.password}"/>
+
+        <context:component-scan base-package="valksam.mvcweb.repository.hibernate"/>
+        <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+              p:dataSource-ref="dataSource"
+              p:packagesToScan="valksam.mvcweb.model">
+        </bean>
     </beans>
 
     <beans profile="hibernate">
         <context:component-scan base-package="valksam.mvcweb.repository.hibernate"/>
         <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-              p:dataSource-ref="dataSource"
-              p:packagesToScan="valksam.mvcweb.model"/>
+              p:configLocation="classpath:db/hibernate.cfg.xml"
+              p:packagesToScan="valksam.mvcweb.model">
+            <property name="hibernateProperties">
+                <props>
+                    <prop key="hibernate.connection.driver_class">${database.driverClassName}</prop>
+                    <prop key="hibernate.connection.url">${database.url}</prop>
+                    <prop key="hibernate.connection.username">${database.username}</prop>
+                    <prop key="hibernate.connection.password">${database.password}</prop>
+                    <prop key="hibernate.dialect">${dialect}</prop>
+                </props>
+            </property>
+        </bean>
+    </beans>
 
+    <beans profile="hibernateDs, hibernate">
         <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
               p:sessionFactory-ref="sessionFactory"/>
 
         <tx:annotation-driven transaction-manager="transactionManager"/>
     </beans>
+
+    <beans profile="springJdbc">
+        <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
+              p:driverClass="${database.driverClassName}"
+              p:jdbcUrl="${database.url}"
+              p:user="${database.username}"
+              p:password="${database.password}"/>
+
+        <context:component-scan base-package="valksam.mvcweb.repository.springJdbc"/>
+        <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+            <constructor-arg ref="dataSource"/>
+        </bean>
+
+        <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+            <constructor-arg ref="dataSource"/>
+        </bean>
+    </beans>
+
 </beans>

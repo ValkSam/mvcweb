@@ -10,6 +10,7 @@ import java.util.Date;
 /**
  * Created by Valk on 12.01.16.
  */
+
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
@@ -36,7 +37,7 @@ public class User extends BaseEntity {
     private String password;
 
     public User(Integer id, String name, Date birthDate, String mail, Role role, String password) {
-        //super(id);
+        super(id);
         this.name = name;
         this.birthDate = birthDate;
         this.mail = mail;
@@ -47,18 +48,48 @@ public class User extends BaseEntity {
     public User() {
     }
 
+    public User(Integer id) {
+        super(id);
+    }
+
     public boolean isNew(){
         return id == null;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = Role.values()[role];
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
                 ", mail='" + mail + '\'' +
                 ", role=" + role +
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }

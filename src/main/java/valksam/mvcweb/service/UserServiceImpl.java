@@ -2,6 +2,7 @@ package valksam.mvcweb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import valksam.mvcweb.LoggerWrapper;
 import valksam.mvcweb.model.User;
 import valksam.mvcweb.repository.UserRepository;
 
@@ -10,15 +11,21 @@ import valksam.mvcweb.repository.UserRepository;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    private static final LoggerWrapper LOG = LoggerWrapper.get(UserServiceImpl.class);
+
     @Autowired
     private UserRepository userRepository;
 
     public User get(int id) {
-        return userRepository.get(id);
+        User user = userRepository.get(id);
+        if (user == null) throw LOG.getNotFoundExeption("User with id = " + id + " not found !");
+        return user;
     }
 
-    public void delete(int id) {
-        userRepository.delete(id);
+    public boolean delete(int id) {
+        boolean result = userRepository.delete(id);
+        if (! result) throw LOG.getNotFoundExeption("User with id = " + id + " not found !");
+        return result;
     }
 
     public User save(User user) {

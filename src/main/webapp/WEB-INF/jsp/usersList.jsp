@@ -7,6 +7,10 @@
 <body>
 <h1>User</h1>
 ${user}
+<%! int i = 0; %>
+<p>
+Hi, now the servlet processing <%= ++i %>th request.
+</p>
 
 </body>
 </html>
