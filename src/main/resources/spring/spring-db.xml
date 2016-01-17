@@ -24,7 +24,8 @@ http://www.springframework.org/schema/tx
               p:driverClassName="${database.driverClassName}"
               p:url="${database.url}"
               p:username="${database.username}"
-              p:password="${database.password}"/>
+              p:password="${database.password}"
+              p:defaultAutoCommit="false"/>
 
         <context:component-scan base-package="valksam.mvcweb.repository.hibernate"/>
         <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"

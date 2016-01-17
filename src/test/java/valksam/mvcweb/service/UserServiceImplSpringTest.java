@@ -20,8 +20,11 @@ import org.springframework.test.context.util.TestContextResourceUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import valksam.mvcweb.Profiles;
+import valksam.mvcweb.model.Role;
 import valksam.mvcweb.model.User;
 import valksam.mvcweb.util.exception.NotFoundException;
+
+import java.util.Date;
 
 /**
  * Created by Valk on 15.01.16.
@@ -31,7 +34,7 @@ import valksam.mvcweb.util.exception.NotFoundException;
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
-@ActiveProfiles({Profiles.POSTGRES, Profiles.SPRINGJDBC})
+@ActiveProfiles({Profiles.POSTGRES, Profiles.HIBERNATE_DS})
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserServiceImplSpringTest {
     @Autowired
@@ -63,5 +66,13 @@ public class UserServiceImplSpringTest {
         boolean result = userService.delete(id);
         Assert.assertEquals(true, result);
     }
+
+    @Test
+    public void testInsert() throws Exception {
+        User user = new User(null, "Masha", new Date(), "asd@zxc", Role.ROLE_USER, "пароль 3");
+        User result = userService.save(user);
+        Assert.assertEquals("Masha", result.getName());
+    }
+
 }
 

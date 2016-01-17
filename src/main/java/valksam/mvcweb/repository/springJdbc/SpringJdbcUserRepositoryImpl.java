@@ -1,5 +1,6 @@
 package valksam.mvcweb.repository.springJdbc;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -58,6 +59,5 @@ public class SpringJdbcUserRepositoryImpl implements UserRepository {
     public User save(User user) {
         return null;
     }
-
 
 }
