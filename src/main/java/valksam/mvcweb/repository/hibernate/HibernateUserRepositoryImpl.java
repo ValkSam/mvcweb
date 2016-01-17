@@ -5,10 +5,15 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import valksam.mvcweb.LoggerWrapper;
+import valksam.mvcweb.model.Role;
 import valksam.mvcweb.model.User;
 import valksam.mvcweb.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Date;
 
 //import javax.transaction.Transactional;
 
@@ -43,8 +48,19 @@ public class HibernateUserRepositoryImpl implements UserRepository {
         return result;
     }
 
+    @org.springframework.transaction.annotation.Transactional
     public User save(User user) {
-        return null;
+        LOG.debug("save(" + user.getId() + ")");
+        Session session = sessionFactory.getCurrentSession();
+        if (user.isNew()) {
+            Serializable id = session.save(user);
+            if (id == null) return null;
+            user.setId((Integer) id);
+        } else {
+            session.update(user);
+        }
+        LOG.debug("saved(" + user.getId() + ")");
+        return user;
     }
 
 

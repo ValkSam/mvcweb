@@ -80,6 +80,26 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     @Override
     public String toString() {
         return "User{" +
