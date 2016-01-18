@@ -29,6 +29,7 @@ public class User extends BaseEntity {
 
     @Column(name = "role")
     @NotNull
+    @Convert(converter = RoleConverter.class)
     private Role role;
 
     @Column(name = "password", nullable = false)
@@ -70,10 +71,6 @@ public class User extends BaseEntity {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public void setRole(Integer role) {
-        this.role = Role.values()[role];
     }
 
     public void setPassword(String password) {

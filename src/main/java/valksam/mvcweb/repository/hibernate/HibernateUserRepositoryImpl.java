@@ -4,18 +4,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import valksam.mvcweb.LoggerWrapper;
-import valksam.mvcweb.model.Role;
 import valksam.mvcweb.model.User;
 import valksam.mvcweb.repository.UserRepository;
 
-import javax.transaction.Transactional;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Date;
 
-//import javax.transaction.Transactional;
 
 /**
  * Created by Valk on 12.01.16.
@@ -48,7 +43,7 @@ public class HibernateUserRepositoryImpl implements UserRepository {
         return result;
     }
 
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public User save(User user) {
         LOG.debug("save(" + user.getId() + ")");
         Session session = sessionFactory.getCurrentSession();

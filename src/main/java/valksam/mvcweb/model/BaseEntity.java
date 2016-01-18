@@ -8,11 +8,11 @@ import javax.persistence.*;
 @MappedSuperclass
 @Access(AccessType.FIELD)
 public class BaseEntity {
-    /*@Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")*/
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    /*@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)*/
     protected Integer id;
 
     protected BaseEntity() {
