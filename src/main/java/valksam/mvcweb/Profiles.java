@@ -5,5 +5,6 @@ public class Profiles {
             POSTGRES = "postgres",
             HIBERNATE = "hibernate",
             HIBERNATE_DS = "hibernateDs",
+            SPRINGDATAJPA = "springDataJpa",
             SPRINGJDBC = "springJdbc";
 }

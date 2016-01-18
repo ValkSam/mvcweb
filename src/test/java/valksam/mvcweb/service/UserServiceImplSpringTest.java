@@ -34,7 +34,7 @@ import java.util.Date;
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
-@ActiveProfiles({Profiles.POSTGRES, Profiles.SPRINGJDBC})
+@ActiveProfiles({Profiles.POSTGRES, Profiles.SPRINGDATAJPA})
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserServiceImplSpringTest {
     @Autowired
