@@ -25,6 +25,7 @@ import valksam.mvcweb.model.User;
 import valksam.mvcweb.util.exception.NotFoundException;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Valk on 15.01.16.
@@ -83,6 +84,13 @@ public class UserServiceImplSpringTest {
         user = userService.get(id);
         Assert.assertEquals("Kolya", user.getName());
         Assert.assertEquals(Role.ROLE_ADMIN, user.getRole());
+    }
+
+    @Test
+    public void testGetAll() throws Exception {
+        userService.evictCache();
+        List<User> result = userService.getAll();
+        Assert.assertEquals(2, result.size());
     }
 }
 

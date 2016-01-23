@@ -89,5 +89,13 @@ public class SpringJdbcUserRepositoryImpl implements UserRepository {
         return user;
     }
 
+    @Transactional
+    public List<User> getAll() {
+        LOG.debug("getAll()");
+        List<User> users = jdbcTemplate.query("SELECT * FROM users ORDER BY name", ROW_MAPPER);
+        LOG.debug("retrieved user list ");
+        return users;
+    }
+
 
 }

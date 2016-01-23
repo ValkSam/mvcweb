@@ -1,15 +1,16 @@
 package valksam.mvcweb.repository.hibernate;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import valksam.mvcweb.LoggerWrapper;
 import valksam.mvcweb.model.User;
 import valksam.mvcweb.repository.UserRepository;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -23,11 +24,12 @@ public class HibernateUserRepositoryImpl implements UserRepository {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    //@Transactional
     public User get(int id) {
         LOG.debug("get(" + id + ")");
         Session session = sessionFactory.getCurrentSession();
-        User user = (User) session.get(User.class, id);
+        User user = session.get(User.class, id);
         LOG.debug("retrieved user " + id);
         return user;
     }
@@ -56,6 +58,16 @@ public class HibernateUserRepositoryImpl implements UserRepository {
         }
         LOG.debug("saved(" + user.getId() + ")");
         return user;
+    }
+
+    @Transactional
+    public List<User> getAll() {
+        LOG.debug("getAll()");
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("SELECT u FROM User u ORDER BY u.name");
+        List<User> result = query.list();
+        LOG.debug("retrieved user list ");
+        return result;
     }
 
 

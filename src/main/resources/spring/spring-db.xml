@@ -30,7 +30,7 @@
 
         <context:component-scan base-package="valksam.mvcweb.repository.hibernate"/>
 
-        <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+        <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
               p:dataSource-ref="dataSource"
               p:packagesToScan="valksam.mvcweb.model">
             <property name="hibernateProperties">
@@ -38,24 +38,41 @@
                     <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
                     <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                     <prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop>
+                    <!--cache 2-d level-->
+                    <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                    <prop key="hibernate.cache.use_second_level_cache">${hibernate.use_second_level_cache}</prop>
+                    <prop key="net.sf.ehcache.configurationResourceName">cache/ehcache.xml</prop>
+                    <!--cache 3-d level-->
+                    <prop key="hibernate.cache.use_query_cache">${hibernate.use_query_cache}</prop>
+                    <!--  -->
                 </props>
             </property>
         </bean>
     </beans>
 
     <beans profile="hibernate">
+        <context:property-placeholder location="classpath:db/gen.properties"
+                                      order="1"/>
+
         <context:component-scan base-package="valksam.mvcweb.repository.hibernate"/>
 
-        <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+        <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
               p:configLocation="classpath:db/hibernate.cfg.xml"
               p:packagesToScan="valksam.mvcweb.model">
             <property name="hibernateProperties">
                 <props>
                     <prop key="hibernate.connection.driver_class">${database.driverClassName}</prop>
+                    <prop key="hibernate.dialect">${dialect}</prop>
                     <prop key="hibernate.connection.url">${database.url}</prop>
                     <prop key="hibernate.connection.username">${database.username}</prop>
                     <prop key="hibernate.connection.password">${database.password}</prop>
-                    <prop key="hibernate.dialect">${dialect}</prop>
+                    <!--cache 2-d level-->
+                    <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                    <prop key="hibernate.cache.use_second_level_cache">${hibernate.use_second_level_cache}</prop>
+                    <prop key="net.sf.ehcache.configurationResourceName">cache/ehcache.xml</prop>
+                    <!--cache 3-d level-->
+                    <prop key="hibernate.cache.use_query_cache">${hibernate.use_query_cache}</prop>
+                    <!--  -->
                 </props>
             </property>
         </bean>
@@ -79,6 +96,13 @@
                     <entry key="#{T(org.hibernate.cfg.AvailableSettings).SHOW_SQL}" value="${hibernate.show_sql}"/>
                     <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
                     <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}" value="${hibernate.use_sql_comments}"/>
+                    <!--cache 2-d level-->
+                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).CACHE_REGION_FACTORY}" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
+                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SECOND_LEVEL_CACHE}" value="${hibernate.use_second_level_cache}"/>
+                    <entry key="#{T(org.hibernate.cache.ehcache.AbstractEhcacheRegionFactory).NET_SF_EHCACHE_CONFIGURATION_RESOURCE_NAME}" value="cache/ehcache.xml"/>
+                    <!--cache 3-d level-->
+                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_QUERY_CACHE}" value="${hibernate.use_query_cache}"/>
+                    <!--  -->
                 </map>
             </property>
 
@@ -121,8 +145,8 @@
     </beans>
 
     <beans profile="hibernateDs, hibernate">
-        <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
-              p:sessionFactory-ref="sessionFactory"/>
+        <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+        p:sessionFactory-ref="sessionFactory"/>
 
         <tx:annotation-driven transaction-manager="transactionManager"/>
     </beans>
