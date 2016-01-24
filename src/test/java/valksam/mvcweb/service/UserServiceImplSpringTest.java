@@ -1,24 +1,15 @@
 package valksam.mvcweb.service;
 
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.ContextConfigurationAttributes;
-import org.springframework.test.context.TestContextManager;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.TestPropertySourceUtils;
-import org.springframework.test.context.util.TestContextResourceUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.test.context.web.WebAppConfiguration;
 import valksam.mvcweb.Profiles;
 import valksam.mvcweb.model.Role;
 import valksam.mvcweb.model.User;
@@ -37,6 +28,7 @@ import java.util.List;
 })
 @ActiveProfiles({Profiles.POSTGRES, Profiles.SPRINGDATAJPA})
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@WebAppConfiguration
 public class UserServiceImplSpringTest {
     @Autowired
     private UserService userService;

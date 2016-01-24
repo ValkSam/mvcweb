@@ -1,24 +1,20 @@
 package valksam.mvcweb.service;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import valksam.mvcweb.LoggerWrapper;
 import valksam.mvcweb.model.User;
 import valksam.mvcweb.repository.UserRepository;
-import valksam.mvcweb.repository.hibernate.HibernateUserRepositoryImpl;
 
 import java.util.List;
 
 /**
  * Created by Valk on 14.01.16.
  */
-@Service
+@Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
     private static final LoggerWrapper LOG = LoggerWrapper.get(UserServiceImpl.class);
 

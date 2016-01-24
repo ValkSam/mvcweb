@@ -24,7 +24,7 @@ public class HibernateUserRepositoryImpl implements UserRepository {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    //@Transactional(propagation = Propagation.REQUIRES_NEW)
     //@Transactional
     public User get(int id) {
         LOG.debug("get(" + id + ")");
@@ -34,7 +34,7 @@ public class HibernateUserRepositoryImpl implements UserRepository {
         return user;
     }
 
-    @Transactional
+    //@Transactional
     public boolean delete(int id) {
         LOG.debug("delete(" + id + ")");
         Session session = sessionFactory.getCurrentSession();
@@ -45,7 +45,7 @@ public class HibernateUserRepositoryImpl implements UserRepository {
         return result;
     }
 
-    @Transactional
+    //@Transactional
     public User save(User user) {
         LOG.debug("save(" + user.getId() + ")");
         Session session = sessionFactory.getCurrentSession();
@@ -60,7 +60,7 @@ public class HibernateUserRepositoryImpl implements UserRepository {
         return user;
     }
 
-    @Transactional
+    //@Transactional
     public List<User> getAll() {
         LOG.debug("getAll()");
         Session session = sessionFactory.getCurrentSession();

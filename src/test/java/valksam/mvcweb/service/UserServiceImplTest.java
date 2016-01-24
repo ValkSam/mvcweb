@@ -19,7 +19,7 @@ public class UserServiceImplTest {
         springContext.getEnvironment().setActiveProfiles(Profiles.POSTGRES, Profiles.HIBERNATE);
         springContext.load("classpath:spring/spring-app.xml", "classpath:spring/spring-db.xml");
         springContext.refresh();
-        userService = springContext.getBean(UserServiceImpl.class);
+        userService = (UserService) springContext.getBean("userServiceImpl");
     }
 
     @AfterClass
