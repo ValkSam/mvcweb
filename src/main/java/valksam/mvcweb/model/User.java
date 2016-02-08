@@ -1,5 +1,6 @@
 package valksam.mvcweb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
@@ -58,7 +59,8 @@ public class User extends BaseEntity {
         super(id);
     }
 
-    public boolean isNew(){
+    @JsonIgnore
+    public boolean isNew() {
         return id == null;
     }
 

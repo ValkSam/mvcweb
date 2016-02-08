@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Transactional
     @Cacheable("users")
     public List<User> getAll() {
         List<User> result = userRepository.getAll();

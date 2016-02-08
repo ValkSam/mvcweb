@@ -11,6 +11,7 @@ ${user}
 <p>
 Hi, now the servlet processing <%= ++i %>th request.
 </p>
+<p>${Attribute}</p>
 
 </body>
 </html>
