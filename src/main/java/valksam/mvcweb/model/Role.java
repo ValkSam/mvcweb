@@ -1,6 +1,6 @@
 package valksam.mvcweb.model;
 
-import valksam.mvcweb.LoggerWrapper;
+        import valksam.mvcweb.LoggerWrapper;
 
 public enum Role {
     ROLE_USER(1),

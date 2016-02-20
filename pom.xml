@@ -27,6 +27,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
@@ -39,9 +40,12 @@
     </build>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <!--  -->
         <spring-data-jpa.version>1.9.0.RELEASE</spring-data-jpa.version>
         <spring.version>4.2.1.RELEASE</spring.version>
+        <spring-security.version>4.0.2.RELEASE</spring-security.version>
         <!-- Logging -->
         <logback.version>1.1.2</logback.version>
         <slf4j.version>1.7.7</slf4j.version>
@@ -50,19 +54,22 @@
         <!--Tomcat-->
         <tomcat.version>7.0.57</tomcat.version>
         <!-- Hibernate -->
-        <hibernate.version>4.3.7.Final</hibernate.version>
+        <hibernate.version>5.0.2.Final</hibernate.version>
+        <hibernate-java8.version>5.0.2.Final</hibernate-java8.version>
         <hibernate-validator.version>5.1.3.Final</hibernate-validator.version>
         <!--Web-->
         <jstl.version>1.2</jstl.version>
+        <webjars-jquery.version>2.1.4</webjars-jquery.version>
+        <!--Test-->
+        <junit.version>4.12</junit.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <!--Cache-->
+        <ehcache.version>2.10.0</ehcache.version>
+        <!--Json-->
+        <jackson-json.version>2.6.3</jackson-json.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-        </dependency>
-
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -92,6 +99,7 @@
             <scope>runtime</scope>
         </dependency>
 
+
         <!--DB-->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -106,11 +114,21 @@
 
         <!--Web-->
         <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${webjars-jquery.version}</version>
+        </dependency>
 
         <!--ORM - JPA-->
         <dependency>
@@ -122,7 +140,7 @@
         <!--Spring-->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
             <exclusions>
                 <exclusion>
@@ -144,17 +162,98 @@
             </exclusions>
         </dependency>
 
-        <!--Hibernate-->
+        <!--Test-->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--Hibernate-->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>${hibernate-java8.version}</version>
+        </dependency>
+
+        <!--Cashe-->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <!--Json-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-json.version}</version>
+        </dependency>
+
+        <!--Security-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -165,6 +264,11 @@
                 <version>${spring.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <version>3.3.0.Final</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

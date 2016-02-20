@@ -5,7 +5,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import valksam.mvcweb.LoggerWrapper;
 import valksam.mvcweb.model.User;
 import valksam.mvcweb.service.UserService;
-import valksam.mvcweb.service.UserServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -29,7 +28,7 @@ public class UserServlet extends HttpServlet {
         super.init(config);
         jspPath = config.getInitParameter("jspPath");
         WebApplicationContext springContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
-        userService = springContext.getBean(UserServiceImpl.class);
+        userService = (UserService) springContext.getBean("userServiceImpl");
         LOG.debug("the servlet is initialized");
     }
 
@@ -38,16 +37,25 @@ public class UserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String path = request.getServletPath();
-        LOG.debug("doGet "+path);
-        switch (path){
+        String path = request.getPathInfo();
+        path = path == null ? "/" : path;
+        switch (path) {
             case "/user": {
                 User user = userService.get(100000);
                 request.setAttribute("user", user);
-                request.getRequestDispatcher(jspPath+"usersList.jsp").forward(request, response);
-                LOG.debug("send a response to the query "+path);
+                request.getRequestDispatcher(jspPath + "usersList.jsp").forward(request, response);
+                LOG.debug("send a response to the query " + path);
+                break;
+            }
+            default: {
+                request.setAttribute("message", "stab response from " + this.getClass().getName());
+                request.getRequestDispatcher(jspPath + "stab.jsp").forward(request, response);
+                LOG.debug("request mapping doesn't found. Send stab response to the query " + path);
                 break;
             }
         }
     }
 }
+
+
+//TODO в spring-app.xml убираю <mvc:annotatiоon-driven/> и все равн работает - поонять с каког момента так работает. Или может его изначально можно было не указывать. По идее благодаря этому должен находится сервис, но и без него  находится

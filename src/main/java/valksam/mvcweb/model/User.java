@@ -1,10 +1,15 @@
 package valksam.mvcweb.model;
 
-import org.hibernate.validator.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -13,27 +18,28 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends BaseEntity {
-    @NotEmpty
-    @Column(name = "name", nullable = false)
+    //@NotEmpty
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "birth_date", nullable = false)
-    @NotNull
+    @Column(name = "birth_date")
+    //@NotNull
     private Date birthDate;
 
-    @Column(name = "mail", nullable = false, unique = true)
+    @Column(name = "mail", unique = true)
     @Email
-    @NotEmpty
+    //@NotEmpty
     private String mail;
 
     @Column(name = "role")
-    @NotNull
+    //@NotNull
     @Convert(converter = RoleConverter.class)
     private Role role;
 
-    @Column(name = "password", nullable = false)
-    @NotEmpty
+    @Column(name = "password")
+    //@NotEmpty
     @Length(min = 5)
     private String password;
 
@@ -53,7 +59,8 @@ public class User extends BaseEntity {
         super(id);
     }
 
-    public boolean isNew(){
+    @JsonIgnore
+    public boolean isNew() {
         return id == null;
     }
 
@@ -108,4 +115,5 @@ public class User extends BaseEntity {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }
