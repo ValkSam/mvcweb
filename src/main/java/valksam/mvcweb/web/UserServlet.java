@@ -38,12 +38,19 @@ public class UserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
+        path = path == null ? "/" : path;
         switch (path) {
             case "/user": {
                 User user = userService.get(100000);
                 request.setAttribute("user", user);
                 request.getRequestDispatcher(jspPath + "usersList.jsp").forward(request, response);
                 LOG.debug("send a response to the query " + path);
+                break;
+            }
+            default: {
+                request.setAttribute("message", "stab response from " + this.getClass().getName());
+                request.getRequestDispatcher(jspPath + "stab.jsp").forward(request, response);
+                LOG.debug("request mapping doesn't found. Send stab response to the query " + path);
                 break;
             }
         }

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -55,7 +56,8 @@ public class UserControllerRESTTest {
 
     @Test
     public void testGet() throws Exception {
-        ResultActions resultActions = mockMvc.perform(get("/rest/user/100000"));
+        ResultActions resultActions = mockMvc.perform(get("/rest/user/100000")
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic("user1", "user2")));
         resultActions.andExpect(
                 MockMvcResultMatchers
                         .content()
@@ -66,7 +68,7 @@ public class UserControllerRESTTest {
     public void testGetAll() throws Exception {
         ResultActions resultActions = mockMvc.perform(get("/rest/user"));
 
-        final List<User> expectedList = new ArrayList<User>(){{
+        final List<User> expectedList = new ArrayList<User>() {{
             add(new User(100000, "Вася", null, "user1@yandex.ru", Role.ROLE_ADMIN, "password1"));
             add(new User(100001, "Коля", null, "user2@yandex.ru", Role.ROLE_USER, "passwor2"));
         }};

@@ -22,6 +22,8 @@
         <param-value>postgres,hibernate</param-value>
     </context-param>
 
+    <!--simple servlet-->
+
     <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>valksam.mvcweb.web.UserServlet</servlet-class>
@@ -36,6 +38,8 @@
         <url-pattern>/train/*</url-pattern>
     </servlet-mapping>
 
+    <!--spring servlet-->
+
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -49,5 +53,17 @@
         <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/work/*</url-pattern>
     </servlet-mapping>
+
+    <!--security-->
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 
 </web-app>
